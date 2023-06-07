@@ -1,28 +1,100 @@
-.example {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  line-height: 1.5;
-  background-color: #fff;
-  color: #2f2f37;
-  max-width: 960px;
-  padding: 16px;
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-.example code {
-  font-family: monospace;
-  font-size: 16px;
-  font-weight: 700;
-  background-color: #ff6b0a;
-  color: #fff;
-  padding: 2px 6px;
-  border-radius: 2px;
+.search-form {
+    display: flex;
+    background-color: #2986cc;
+    justify-content: center;
+    padding: 10px;
 }
 
-.example .background {
-  height: 240px;
-  // ❗️❗️❗️ The path to images from a SASS file
-  // is always the same as from the css folder.
-  background-image: url('../images/logo.png');
-  background-size: cover;
-  background-position: center;
+.search-form input {
+    border-style: solid;
+    border-color: #f3f3f3;
+    padding: 8px;
+    font-size: 16px;
+}
+
+.search-form button {
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #f3f3f3;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.gallery {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-gap: 10px;
+}
+
+.photo-card {
+    text-decoration: none;
+    box-shadow: 0 1px 6px rgb(46 47 66 / 8%), 0 1px 1px rgb(46 47 66 / 16%), 0 2px 1px rgb(46 47 66 / 8%);
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.photo-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.info {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 5px;
+}
+
+.info-item {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.info-item b {
+    text-align: center;
+    margin-right: 5px;
+    display: block;
+    width: 100%;
+    font-weight: bold;
+}
+
+.load-more {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #2986cc;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.load-more:hover {
+    background-color: #0056b3;
+}
+
+.load-more:focus {
+    outline: none;
+}
+
+.lightbox {
+    text-decoration: none;
+    color: inherit;
 }
