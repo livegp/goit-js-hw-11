@@ -16,6 +16,7 @@
 }
 
 .search-form input {
+    border-radius: 5px 0 0 5px;
     border-style: solid;
     border-color: #f3f3f3;
     padding: 8px;
@@ -23,12 +24,17 @@
 }
 
 .search-form button {
+    border-radius: 0 5px 5px 0;
     padding: 8px 16px;
     font-size: 16px;
     background-color: #f3f3f3;
     color: #fff;
     border: none;
     cursor: pointer;
+}
+
+.search-form button:hover {
+    background-color: #e6e6e6;;
 }
 
 .gallery {
@@ -77,25 +83,6 @@
     display: block;
     width: 100%;
     font-weight: bold;
-}
-
-.load-more {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    background-color: #2986cc;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.load-more:hover {
-    background-color: #0056b3;
-}
-
-.load-more:focus {
-    outline: none;
 }
 
 .lightbox {

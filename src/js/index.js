@@ -28,65 +28,12 @@ searchForm.addEventListener('submit', onSearch);
 window.addEventListener('scroll', onScroll);
 document.addEventListener('DOMContentLoaded', hideLoader);
 
-function onScroll() {
-    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-    const scrollThreshold = 300;
-    if (
-        scrollTop + clientHeight >= scrollHeight - scrollThreshold &&
-        gallery.innerHTML !== '' &&
-        !isLoadingMore &&
-        !reachedEnd
-    ) {
-        loadMore();
-    }
+function showLoader() {
+    loader.style.display = 'block';
 }
 
-async function loadMore() {
-    isLoadingMore = true;
-    options.params.page += 1;
-    try {
-        showLoader();
-        const response = await axios.get(BASE_URL, options);
-        const hits = response.data.hits;
-        renderGallery(hits);
-    } catch (error) {
-        hideLoader();
-        Notify.failure(error);
-    } finally {
-        hideLoader();
-        isLoadingMore = false;
-    }
-}
-
-
-async function onSearch(event) {
-    event.preventDefault();
-    options.params.q = input.value;
-    if (options.params.q === '') {
-        return;
-    }
-    options.params.page = 1;
-    gallery.innerHTML = '';
-    reachedEnd = false;
-    try {
-        showLoader();
-        const response = await axios.get(BASE_URL, options);
-        totalHits = response.data.totalHits;
-        const hits = response.data.hits;
-        Notify.success(`Hooray! We found ${totalHits} images.`);
-        if (hits.length === 0) {
-            Notify.failure(
-                'Sorry, there are no images matching your search query. Please try again.'
-            );
-        } else {
-            renderGallery(hits);
-        }
-        input.value = '';
-        hideLoader();
-    } catch (error) {
-        Notify.failure(error);
-        hideLoader();
-    }
+function hideLoader() {
+    loader.style.display = 'none';
 }
 
 function renderGallery(hits) {
@@ -139,10 +86,62 @@ function renderGallery(hits) {
     lightbox.refresh();
 }
 
-function showLoader() {
-    loader.style.display = 'block';
+async function loadMore() {
+    isLoadingMore = true;
+    options.params.page += 1;
+    try {
+        showLoader();
+        const response = await axios.get(BASE_URL, options);
+        const hits = response.data.hits;
+        renderGallery(hits);
+    } catch (error) {
+        Notify.failure(error);
+        hideLoader();
+    } finally {
+        hideLoader();
+        isLoadingMore = false;
+    }
 }
 
-function hideLoader() {
-    loader.style.display = 'none';
+function onScroll() {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    const scrollThreshold = 300;
+    if (
+        scrollTop + clientHeight >= scrollHeight - scrollThreshold &&
+        gallery.innerHTML !== '' &&
+        !isLoadingMore &&
+        !reachedEnd
+    ) {
+        loadMore();
+    }
+}
+
+async function onSearch(event) {
+    event.preventDefault();
+    options.params.q = input.value;
+    if (options.params.q === '') {
+        return;
+    }
+    options.params.page = 1;
+    gallery.innerHTML = '';
+    reachedEnd = false;
+    try {
+        showLoader();
+        const response = await axios.get(BASE_URL, options);
+        totalHits = response.data.totalHits;
+        const hits = response.data.hits;
+        Notify.success(`Hooray! We found ${totalHits} images.`);
+        if (hits.length === 0) {
+            Notify.failure(
+                'Sorry, there are no images matching your search query. Please try again.'
+            );
+        } else {
+            renderGallery(hits);
+        }
+        input.value = '';
+        hideLoader();
+    } catch (error) {
+        Notify.failure(error);
+        hideLoader();
+    }
 }
