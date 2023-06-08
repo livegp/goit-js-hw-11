@@ -45,11 +45,10 @@ async function loadMore() {
         const response = await axios.get(BASE_URL, options);
         const hits = response.data.hits;
         renderGallery(hits);
-        isLoadingMore = false;
     } catch (error) {
         Notify.failure(error);
-        isLoadingMore = false;
     }
+    isLoadingMore = false;
 }
 
 async function onSearch(event) {
