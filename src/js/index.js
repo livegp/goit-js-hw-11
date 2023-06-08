@@ -118,7 +118,6 @@ function renderGallery(hits) {
             reachedEnd = true;
         }
     }
-    // const lightbox = new SimpleLightbox('.lightbox');
     const lightbox = new SimpleLightbox('.lightbox', {
       captionsData: 'alt',
       captionDelay: 250,
