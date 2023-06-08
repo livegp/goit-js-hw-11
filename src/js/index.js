@@ -6,6 +6,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const searchForm = document.getElementById('search-form');
 const input = searchForm.querySelector('input');
 const gallery = document.querySelector('.gallery');
+const loader = document.querySelector('.loader');
 const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '35608601-7cda014b012f6d1bf4756c5e4';
 const options = {
@@ -25,11 +26,13 @@ let reachedEnd = false;
 
 searchForm.addEventListener('submit', onSearch);
 window.addEventListener('scroll', onScroll);
+document.addEventListener('DOMContentLoaded', showLoader);
 
 function onScroll() {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    const scrollThreshold = 300;
     if (
-        scrollTop + clientHeight >= scrollHeight - 300 &&
+        scrollTop + clientHeight >= scrollHeight - scrollThreshold &&
         gallery.innerHTML !== '' &&
         !isLoadingMore &&
         !reachedEnd
@@ -61,6 +64,7 @@ async function onSearch(event) {
     gallery.innerHTML = '';
     reachedEnd = false;
     try {
+        showLoader();
         const response = await axios.get(BASE_URL, options);
         totalHits = response.data.totalHits;
         const hits = response.data.hits;
@@ -73,8 +77,10 @@ async function onSearch(event) {
             renderGallery(hits);
         }
         input.value = '';
+        hideLoader();
     } catch (error) {
         Notify.failure(error);
+        hideLoader();
     }
 }
 
@@ -118,12 +124,20 @@ function renderGallery(hits) {
         }
     }
     const lightbox = new SimpleLightbox('.lightbox', {
-      captionsData: 'alt',
-      captionDelay: 250,
-      enableKeyboard: true,
-      showCounter: false,
-      scrollZoom: false,
-      close: false,
+        captionsData: 'alt',
+        captionDelay: 250,
+        enableKeyboard: true,
+        showCounter: false,
+        scrollZoom: false,
+        close: false,
     });
     lightbox.refresh();
+}
+
+function showLoader() {
+    loader.style.display = 'block';
+}
+
+function hideLoader() {
+    loader.style.display = 'none';
 }
