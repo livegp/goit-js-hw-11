@@ -26,7 +26,7 @@ let reachedEnd = false;
 
 searchForm.addEventListener('submit', onSearch);
 window.addEventListener('scroll', onScroll);
-document.addEventListener('DOMContentLoaded', showLoader);
+document.addEventListener('DOMContentLoaded', hideLoader);
 
 function onScroll() {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
@@ -45,14 +45,19 @@ async function loadMore() {
     isLoadingMore = true;
     options.params.page += 1;
     try {
+        showLoader();
         const response = await axios.get(BASE_URL, options);
         const hits = response.data.hits;
         renderGallery(hits);
     } catch (error) {
+        hideLoader();
         Notify.failure(error);
+    } finally {
+        hideLoader();
+        isLoadingMore = false;
     }
-    isLoadingMore = false;
 }
+
 
 async function onSearch(event) {
     event.preventDefault();
